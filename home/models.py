@@ -27,3 +27,28 @@ class Brand(models.Model):
     slug = models.CharField(max_length=500, unique=True)
     def __str__(self):
         return self.title
+
+class Feedback(models.Model):
+    name = models.CharField(max_length=200)
+    post = models.CharField(max_length=500)
+    rate = models.IntegerField()
+    image = models.ImageField(upload_to='media')
+    cooment = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+class ContactInfo(models.Model):
+    address = models.CharField(max_length=300)
+    email = models.EmailField(max_length=100)
+    phone = models.CharField(max_length=20)
+    def __str__(self):
+        return self.address
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    subject = models.TextField(blank = True)
+    message = models.TextField(blank = True)
+    def __str__(self):
+        return self.name
