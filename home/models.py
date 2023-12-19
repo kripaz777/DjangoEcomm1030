@@ -52,3 +52,20 @@ class Contact(models.Model):
     message = models.TextField(blank = True)
     def __str__(self):
         return self.name
+
+LABEL = (('new','new'),('sale','sale'),('hot','hot'))
+STOCK = (('In Stock','In Stock'),('Out of Stock','Out of Stock'))
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, on_delete = models.CASCADE)
+    price = models.IntegerField()
+    discounted_price = models.IntegerField()
+    image = models.ImageField(upload_to='media')
+    description = models.TextField(blank = True)
+    specification = models.TextField(blank=True)
+    slug = models.TextField()
+    label = models.CharField(choices=LABEL,max_length=20)
+    stock = models.CharField(choices=STOCK, max_length=20)
+    def __str__(self):
+        return self.name
