@@ -9,4 +9,8 @@ class BaseView(View):
 class HomeView(BaseView):
     def get(self,request):
         self.views['categories'] = Category.objects.all()
+        self.views['sliders'] = Slider.objects.all()
+        self.views['brands'] = Brand.objects.all()
+        self.views['contact_info'] = ContactInfo.objects.all()
+
         return render(request,'index.html',self.views)
