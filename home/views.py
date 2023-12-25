@@ -13,5 +13,8 @@ class HomeView(BaseView):
         self.views['brands'] = Brand.objects.all()
         self.views['ads'] = Ad.objects.all()
         self.views['contact_info'] = ContactInfo.objects.all()
+        self.views['hot_news'] = Product.objects.filter(label = 'hot')
+        self.views['new_news'] = Product.objects.filter(label = 'new')
+
 
         return render(request,'index.html',self.views)
