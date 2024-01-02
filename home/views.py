@@ -64,13 +64,13 @@ def signup(request):
             if User.objects.filter(username = username).exists():
                 messages.error(request, "Username already taken!")
                 return redirect('/signup')
-            elif User.objects.fikter(email = email).exists():
+            elif User.objects.filter(email = email).exists():
                 messages.error(request, "Email already used!")
                 return redirect('/signup')
             else:
                 User.objects.create_user(
                     first_name = fname,
-                    lastname = lname,
+                    last_name = lname,
                     username = username,
                     email = email,
                     password = password
