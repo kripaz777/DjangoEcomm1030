@@ -3,6 +3,8 @@ from .views import *
 from django.views.generic import View
 from .models import *
 from django.contrib.auth.models import User
+from django.contrib import messages
+
 # Create your views here.
 class BaseView(View):
     views = {}
@@ -60,8 +62,10 @@ def signup(request):
 
         if password == cpassword:
             if User.objects.filter(username = username).exists():
+                messages.error(request, "Username already taken!")
                 return redirect('/signup')
             elif User.objects.fikter(email = email).exists():
+                messages.error(request, "Email already used!")
                 return redirect('/signup')
             else:
                 User.objects.create_user(
