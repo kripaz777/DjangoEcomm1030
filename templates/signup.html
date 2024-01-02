@@ -19,6 +19,9 @@
                 <div class="row">
                     <form method = "POST">
                         {% csrf_token %}
+                        {% for messages in messages %}
+                        <font color = "red"><center>{{messages}}</center></font>
+                        {% endfor %}
                     <div class="col-lg-6">
                         <div class="register-form">
                             <div class="row">

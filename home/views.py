@@ -75,5 +75,7 @@ def signup(request):
                     email = email,
                     password = password
                 ).save()
-
+        else:
+            messages.error(request, "Password does not match!")
+            return redirect('/signup')
     return render(request, 'signup.html')
