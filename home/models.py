@@ -69,3 +69,26 @@ class Product(models.Model):
     stock = models.CharField(choices=STOCK, max_length=20)
     def __str__(self):
         return self.name
+
+class Cart(models.Model):
+    username = models.CharField(max_length=200)
+    slug = models.CharField(max_length=500)
+    item = models.ForeignKey(Product,on_delete=models.CASCADE)
+    quantity = models.FloatField(default = 1)
+    total = models.FloatField()
+    checkout = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.username
+
+
+class ProductReview(models.Model):
+    username = models.CharField(max_length=300)
+    email = models.EmailField(max_length=100)
+    slug = models.CharField(max_length=500)
+    review = models.TextField(blank = True)
+    rating = models.IntegerField(default=5)
+    date = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.username
