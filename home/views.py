@@ -38,6 +38,7 @@ class ProductDetailView(BaseView):
         self.views['product_details'] = Product.objects.filter(slug = slug)
         cat_id = Product.objects.get(slug = slug).category_id
         self.views['related_products'] = Product.objects.filter(category_id = cat_id)
+        self.views['product_review'] = ProductReview.objects.filter(slug = slug)
         return render(request,'product-detail.html',self.views)
 
 class SearchView(BaseView):
@@ -79,3 +80,18 @@ def signup(request):
             messages.error(request, "Password does not match!")
             return redirect('/signup')
     return render(request, 'signup.html')
+
+def product_review(request,slug):
+    if request.method == 'POST':
+        username = request.user.username
+        email = request.user.email
+        rating = request.POST['rating']
+        review = request.POST['review']
+        ProductReview.objects.create(
+            username = username,
+            email = email,
+            rating = rating,
+            review = review,
+            slug = slug
+        ).save()
+    return redirect(f'/details/{slug}')
