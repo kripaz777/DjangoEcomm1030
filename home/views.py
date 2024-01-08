@@ -122,3 +122,10 @@ def add_to_cart(request,slug):
         ).save()
 
     return redirect('/')
+
+
+class CartView(BaseView):
+    def get(self,request):
+        username = request.user.username
+        self.views['cart_view'] = Cart.objects.filter(username = username, checkout = False)
+        return render(request,'cart.html',self.views)
