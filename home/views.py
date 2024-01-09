@@ -110,7 +110,7 @@ def add_to_cart(request,slug):
         quantity +=1
         total = original_price * quantity
         Cart.objects.filter(slug = slug, username = username,checkout = False).update(
-            quantity = quantity +1,
+            quantity = quantity,
             total = total
         )
     else:
@@ -121,7 +121,7 @@ def add_to_cart(request,slug):
             total = original_price
         ).save()
 
-    return redirect('/')
+    return redirect('/cart')
 
 
 class CartView(BaseView):
@@ -129,3 +129,31 @@ class CartView(BaseView):
         username = request.user.username
         self.views['cart_view'] = Cart.objects.filter(username = username, checkout = False)
         return render(request,'cart.html',self.views)
+
+def reduce_qty(request,slug):
+    username = request.user.username
+    price = Product.objects.get(slug = slug).price
+    discountred_price = Product.objects.get(slug = slug).discounted_price
+    if discountred_price > 0:
+        original_price = discountred_price
+    else:
+        original_price = price
+
+    if Cart.objects.filter(slug = slug,username = username,checkout = False).exists():
+        quantity = Cart.objects.get(slug = slug).quantity
+        if quantity > 1:
+            quantity -=1
+            total = original_price * quantity
+            Cart.objects.filter(slug = slug, username = username,checkout = False).update(
+                quantity = quantity,
+                total = total
+            )
+        else:
+            messages.error(request, "Quantity is already 1")
+            return redirect('/cart')
+    return redirect('/cart')
+
+def delete_cart(request,slug):
+    username = request.user.username
+    Cart.objects.filter(slug=slug, username=username, checkout=False).delete()
+    return redirect('/cart')
