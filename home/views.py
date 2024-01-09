@@ -126,8 +126,14 @@ def add_to_cart(request,slug):
 
 class CartView(BaseView):
     def get(self,request):
+        cart_total = 0
         username = request.user.username
         self.views['cart_view'] = Cart.objects.filter(username = username, checkout = False)
+        for i in self.views['cart_view']:
+            cart_total = cart_total + i.total
+        self.views['cart_total'] = cart_total
+        self.views['extra_charges'] = 50
+        self.views['all_total'] = cart_total + 50
         return render(request,'cart.html',self.views)
 
 def reduce_qty(request,slug):
