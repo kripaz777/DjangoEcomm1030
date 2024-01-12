@@ -22,7 +22,6 @@ class HomeView(BaseView):
         self.views['hot_news'] = Product.objects.filter(label = 'hot')
         self.views['new_news'] = Product.objects.filter(label = 'new')
 
-
         return render(request,'index.html',self.views)
 
 class CategoryView(BaseView):
